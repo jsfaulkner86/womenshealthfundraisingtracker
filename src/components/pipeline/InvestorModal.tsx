@@ -103,7 +103,7 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
         </DialogHeader>
 
         <ScrollArea className="max-h-[65vh] px-6">
-          <form id="investor-form" onSubmit={handleSubmit} className="space-y-5 pb-4 px-0.5">
+          <form id="investor-form" onSubmit={handleSubmit} className="space-y-5 pb-4 px-1">
             {/* Core info */}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
