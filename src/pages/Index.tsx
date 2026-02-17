@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useInvestors, useWeeklyReflection, useOnboarding, useStatsSnapshot } from '@/hooks/useInvestors';
 import type { ViewType, Investor, KnownInvestor } from '@/lib/types';
 import { VIEW_INFO, createEmptyInvestor, exportToJSON, exportToCSV, downloadFile } from '@/lib/types';
@@ -15,11 +15,22 @@ import { InvestorFeed } from '@/components/pipeline/InvestorFeed';
 import { NewsFeed } from '@/components/pipeline/NewsFeed';
 import { OverwhelmGuard } from '@/components/pipeline/OverwhelmGuard';
 import { ImportDialog } from '@/components/pipeline/ImportDialog';
-import { Plus, ShieldCheck, Download, Upload, CloudOff } from 'lucide-react';
+import { Plus, ShieldCheck, Download, Upload, CloudOff, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+
+const MOTIVATIONAL_LINES = [
+  "Every great raise starts with one conversation.",
+  "You're building something investors will fight over.",
+  "The next yes is closer than you think.",
+  "Women's health deserves world-class capital.",
+  "Your pipeline is your power. Own it.",
+  "One warm intro can change everything.",
+  "Fundraising is a skill — and you're sharpening it.",
+  "The best founders track relentlessly. You're one of them.",
+];
 
 const Index = () => {
   const { investors, addInvestor, updateInvestor, deleteInvestor, updateFunnelStage } = useInvestors();
@@ -31,6 +42,10 @@ const Index = () => {
   const [editingInvestor, setEditingInvestor] = useState<Investor | null>(null);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showImport, setShowImport] = useState(false);
+
+  const motivation = useMemo(() => 
+    MOTIVATIONAL_LINES[Math.floor(Math.random() * MOTIVATIONAL_LINES.length)], 
+  []);
 
   const handleImport = (imported: Investor[]) => {
     imported.forEach(inv => addInvestor(inv));
@@ -78,16 +93,23 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Animated gradient accent bar */}
+      <div className="h-1 w-full bg-gradient-to-r from-primary via-accent to-primary animate-gradient-shift" />
+
       {/* Header */}
       <header className="border-b border-border bg-card/60 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 py-5">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-[22px] sm:text-2xl font-display font-semibold text-foreground leading-tight">
-                Women's Health Fundraising Tracker
-              </h1>
-              <p className="text-[13px] text-muted-foreground mt-1 font-body">
-                A private command center for femtech founders raising capital
+              <div className="flex items-center gap-2.5">
+                <h1 className="text-[22px] sm:text-2xl font-display font-semibold text-foreground leading-tight">
+                  Women's Health Fundraising Tracker
+                </h1>
+                <Sparkles className="w-5 h-5 text-accent animate-pulse-soft" />
+              </div>
+              <p className="text-[13px] text-muted-foreground mt-1.5 font-body flex items-center gap-2">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse-soft" />
+                {motivation}
               </p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
@@ -128,8 +150,8 @@ const Index = () => {
                 <span className="hidden sm:inline">Import</span>
               </Button>
 
-              <Button onClick={handleAdd} size="sm">
-                <Plus className="w-4 h-4" />
+              <Button onClick={handleAdd} size="sm" className="group">
+                <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
                 <span className="hidden sm:inline">Add Investor</span>
               </Button>
             </div>
