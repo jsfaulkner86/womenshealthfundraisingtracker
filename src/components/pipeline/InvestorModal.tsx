@@ -10,7 +10,8 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import type { Investor, InvestorType, FunnelStage, FemtechFit, HealthcareFocus, EvidenceStage, RegulatoryStatus, StrategicInterest, Priority, ClinicalFocus, ProductType, StageF } from '@/lib/types';
-import { createEmptyInvestor, FUNNEL_STAGES, FIELD_HELPERS } from '@/lib/types';
+import { createEmptyInvestor, FUNNEL_STAGES, FIELD_HELPERS, EVIDENCE_FUNDRAISING_TIPS } from '@/lib/types';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Trash2, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -225,6 +226,11 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
                       ))}
                     </SelectContent>
                   </Select>
+                  {form.evidenceStage && EVIDENCE_FUNDRAISING_TIPS[form.evidenceStage] && (
+                    <p className="text-[11px] text-primary/80 leading-relaxed mt-1 italic">
+                      💡 {EVIDENCE_FUNDRAISING_TIPS[form.evidenceStage]}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-1.5">
                   <FieldLabel name="regulatoryStatus" label="Regulatory Status" />
@@ -242,7 +248,7 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
 
             {/* Logistics */}
             <div className="pt-3 border-t border-border">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Logistics</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Logistics &amp; Intros</p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <FieldLabel name="checkSizeRange" label="Check Size" />
@@ -259,9 +265,13 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
                   <Input value={form.warmIntroSource} onChange={e => set('warmIntroSource', e.target.value)} placeholder="Initials or shorthand—just for you" />
                 </div>
                 <div className="space-y-1.5">
-                  <FieldLabel name="firstContactDate" label="First Contact" />
-                  <Input type="date" value={form.firstContactDate} onChange={e => set('firstContactDate', e.target.value)} />
+                  <FieldLabel name="introPath" label="Intro Path" />
+                  <Input value={form.introPath} onChange={e => set('introPath', e.target.value)} placeholder="e.g. Dr. K → Angel X → Fund Y" />
                 </div>
+              </div>
+              <div className="mt-3 space-y-1.5">
+                <FieldLabel name="firstContactDate" label="First Contact" />
+                <Input type="date" value={form.firstContactDate} onChange={e => set('firstContactDate', e.target.value)} className="w-48" />
               </div>
             </div>
 
@@ -283,9 +293,28 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
                 <Textarea
                   value={form.keyNotes}
                   onChange={e => set('keyNotes', e.target.value)}
-                  rows={3}
+                  rows={2}
                   placeholder="What matters to them? Use your own shorthand—this is just for you."
                 />
+              </div>
+              <div className="mt-3 space-y-1.5">
+                <FieldLabel name="founderNotes" label="Founder Notes (private)" />
+                <Textarea
+                  value={form.founderNotes}
+                  onChange={e => set('founderNotes', e.target.value)}
+                  rows={2}
+                  placeholder="Vibes, red flags, gut feelings — for your eyes only."
+                />
+              </div>
+              <div className="mt-3 flex items-center gap-2">
+                <Checkbox
+                  id="practice"
+                  checked={form.isPractice}
+                  onCheckedChange={(checked) => set('isPractice', !!checked)}
+                />
+                <label htmlFor="practice" className="text-[12px] text-muted-foreground cursor-pointer">
+                  Practice investor — rehearse your pitch here first
+                </label>
               </div>
             </div>
           </form>
