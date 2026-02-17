@@ -2,98 +2,99 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap');
 
 @layer base {
   :root {
-    --background: 40 33% 97%;
-    --foreground: 200 15% 15%;
+    /* Background: warm parchment white */
+    --background: 42 30% 97%;
+    --foreground: 192 18% 14%;
 
-    --card: 40 30% 99%;
-    --card-foreground: 200 15% 15%;
+    /* Cards: clean white with warmth */
+    --card: 42 25% 99%;
+    --card-foreground: 192 18% 14%;
 
-    --popover: 40 30% 99%;
-    --popover-foreground: 200 15% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 192 18% 14%;
 
-    --primary: 160 30% 36%;
-    --primary-foreground: 40 33% 97%;
+    /* Primary: deep forest green — trust, healthcare, gravitas */
+    --primary: 162 38% 28%;
+    --primary-foreground: 42 30% 97%;
 
-    --secondary: 160 15% 92%;
-    --secondary-foreground: 160 30% 26%;
+    /* Secondary: light sage — calm surfaces */
+    --secondary: 158 18% 93%;
+    --secondary-foreground: 162 30% 22%;
 
-    --muted: 40 15% 93%;
-    --muted-foreground: 200 10% 45%;
+    /* Muted: warm gray — supporting text and surfaces */
+    --muted: 40 12% 92%;
+    --muted-foreground: 200 8% 46%;
 
-    --accent: 12 60% 62%;
-    --accent-foreground: 40 33% 97%;
+    /* Accent: warm terracotta — confident, not aggressive */
+    --accent: 16 52% 58%;
+    --accent-foreground: 42 30% 97%;
 
-    --destructive: 0 65% 55%;
-    --destructive-foreground: 40 33% 97%;
+    --destructive: 0 55% 50%;
+    --destructive-foreground: 42 30% 97%;
 
-    --border: 40 15% 88%;
-    --input: 40 15% 88%;
-    --ring: 160 30% 36%;
+    /* Borders: subtle, warm */
+    --border: 42 14% 89%;
+    --input: 42 14% 86%;
+    --ring: 162 38% 28%;
 
-    --radius: 0.625rem;
+    --radius: 0.5rem;
 
-    --sidebar-background: 160 15% 96%;
-    --sidebar-foreground: 200 15% 15%;
-    --sidebar-primary: 160 30% 36%;
-    --sidebar-primary-foreground: 40 33% 97%;
-    --sidebar-accent: 160 15% 92%;
-    --sidebar-accent-foreground: 160 30% 26%;
-    --sidebar-border: 40 15% 88%;
-    --sidebar-ring: 160 30% 36%;
+    --sidebar-background: 158 14% 96%;
+    --sidebar-foreground: 192 18% 14%;
+    --sidebar-primary: 162 38% 28%;
+    --sidebar-primary-foreground: 42 30% 97%;
+    --sidebar-accent: 158 18% 93%;
+    --sidebar-accent-foreground: 162 30% 22%;
+    --sidebar-border: 42 14% 89%;
+    --sidebar-ring: 162 38% 28%;
 
-    /* Custom tokens */
-    --success: 160 45% 42%;
-    --success-foreground: 40 33% 97%;
-    --warning: 38 90% 55%;
-    --warning-foreground: 200 15% 15%;
-    --info: 210 55% 55%;
-    --info-foreground: 40 33% 97%;
+    /* Pipeline stage colors — muted, professional */
+    --kanban-research: 215 22% 93%;
+    --kanban-intro: 260 16% 93%;
+    --kanban-meeting: 38 30% 93%;
+    --kanban-diligence: 162 22% 91%;
+    --kanban-yes: 162 30% 88%;
+    --kanban-passed: 0 12% 92%;
+    --kanban-hold: 40 10% 91%;
 
-    --kanban-research: 210 30% 92%;
-    --kanban-intro: 270 25% 92%;
-    --kanban-meeting: 38 50% 92%;
-    --kanban-diligence: 160 30% 90%;
-    --kanban-yes: 160 45% 88%;
-    --kanban-passed: 0 20% 92%;
-    --kanban-hold: 40 15% 90%;
-
-    --priority-high: 0 65% 55%;
-    --priority-medium: 38 90% 55%;
-    --priority-low: 160 30% 36%;
+    /* Priority dots */
+    --priority-high: 0 55% 50%;
+    --priority-medium: 38 70% 50%;
+    --priority-low: 162 38% 38%;
   }
 
   .dark {
-    --background: 200 15% 10%;
-    --foreground: 40 15% 93%;
-    --card: 200 15% 12%;
-    --card-foreground: 40 15% 93%;
-    --popover: 200 15% 12%;
-    --popover-foreground: 40 15% 93%;
-    --primary: 160 35% 50%;
-    --primary-foreground: 200 15% 10%;
-    --secondary: 200 15% 18%;
-    --secondary-foreground: 40 15% 85%;
-    --muted: 200 15% 18%;
-    --muted-foreground: 40 10% 55%;
-    --accent: 12 55% 58%;
-    --accent-foreground: 200 15% 10%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 40 15% 93%;
-    --border: 200 15% 20%;
-    --input: 200 15% 20%;
-    --ring: 160 35% 50%;
-    --sidebar-background: 200 15% 8%;
-    --sidebar-foreground: 40 15% 93%;
-    --sidebar-primary: 160 35% 50%;
-    --sidebar-primary-foreground: 200 15% 10%;
-    --sidebar-accent: 200 15% 18%;
-    --sidebar-accent-foreground: 40 15% 85%;
-    --sidebar-border: 200 15% 20%;
-    --sidebar-ring: 160 35% 50%;
+    --background: 200 14% 8%;
+    --foreground: 42 12% 92%;
+    --card: 200 14% 10%;
+    --card-foreground: 42 12% 92%;
+    --popover: 200 14% 10%;
+    --popover-foreground: 42 12% 92%;
+    --primary: 162 35% 45%;
+    --primary-foreground: 200 14% 8%;
+    --secondary: 200 12% 16%;
+    --secondary-foreground: 42 12% 85%;
+    --muted: 200 12% 16%;
+    --muted-foreground: 42 8% 55%;
+    --accent: 16 45% 55%;
+    --accent-foreground: 200 14% 8%;
+    --destructive: 0 50% 35%;
+    --destructive-foreground: 42 12% 92%;
+    --border: 200 12% 18%;
+    --input: 200 12% 18%;
+    --ring: 162 35% 45%;
+    --sidebar-background: 200 14% 6%;
+    --sidebar-foreground: 42 12% 92%;
+    --sidebar-primary: 162 35% 45%;
+    --sidebar-primary-foreground: 200 14% 8%;
+    --sidebar-accent: 200 12% 16%;
+    --sidebar-accent-foreground: 42 12% 85%;
+    --sidebar-border: 200 12% 18%;
+    --sidebar-ring: 162 35% 45%;
   }
 }
 
@@ -103,20 +104,27 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
     font-family: 'DM Sans', system-ui, sans-serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.01em;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
   }
   .font-body {
     font-family: 'DM Sans', system-ui, sans-serif;
+    letter-spacing: -0.01em;
   }
 }

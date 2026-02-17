@@ -1,5 +1,5 @@
 import type { Investor, FunnelStage } from '@/lib/types';
-import { FUNNEL_STAGES, FUNNEL_STAGE_COLORS } from '@/lib/types';
+import { FUNNEL_STAGE_COLORS } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { InvestorCard } from './InvestorCard';
 
@@ -19,25 +19,25 @@ export function KanbanView({ investors, onEdit, onStageChange }: KanbanViewProps
 
   return (
     <div>
-      <div className="flex gap-3 overflow-x-auto pb-4">
+      <div className="flex gap-3 overflow-x-auto pb-4 -mx-1 px-1">
         {ACTIVE_STAGES.map(stage => {
           const stageInvestors = investors.filter(i => i.funnelStage === stage);
           return (
             <div
               key={stage}
-              className="flex-shrink-0 w-[260px]"
+              className="flex-shrink-0 w-[256px]"
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => {
                 const id = e.dataTransfer.getData('investor-id');
                 if (id) onStageChange(id, stage);
               }}
             >
-              <div className={cn("rounded-lg px-3 py-2 mb-2", FUNNEL_STAGE_COLORS[stage])}>
+              <div className={cn("rounded-lg px-3 py-2.5 mb-2.5", FUNNEL_STAGE_COLORS[stage])}>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-foreground/80 uppercase tracking-wide">
+                  <span className="text-[11px] font-semibold text-foreground/70 uppercase tracking-wider font-body">
                     {stage}
                   </span>
-                  <span className="text-xs text-muted-foreground tabular-nums">
+                  <span className="text-[11px] text-muted-foreground/60 tabular-nums font-body">
                     {stageInvestors.length}
                   </span>
                 </div>
@@ -52,10 +52,9 @@ export function KanbanView({ investors, onEdit, onStageChange }: KanbanViewProps
         })}
       </div>
 
-      {/* Passed / On hold row */}
       {passedOrHold.length > 0 && (
-        <div className="mt-6 pt-4 border-t border-border">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+        <div className="mt-8 pt-5 border-t border-border">
+          <p className="text-[11px] font-semibold text-muted-foreground/60 uppercase tracking-wider mb-3 font-body">
             Passed &amp; On Hold ({passedOrHold.length})
           </p>
           <div className="flex gap-2 flex-wrap">
@@ -63,10 +62,10 @@ export function KanbanView({ investors, onEdit, onStageChange }: KanbanViewProps
               <button
                 key={inv.id}
                 onClick={() => onEdit(inv)}
-                className="px-3 py-1.5 rounded-md bg-muted text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="px-3 py-1.5 rounded-md bg-muted text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150"
               >
-                {inv.investorName || inv.fundName || 'Unnamed'} 
-                <span className="ml-1 text-xs opacity-60">· {inv.funnelStage}</span>
+                {inv.investorName || inv.fundName || 'Unnamed'}
+                <span className="ml-1.5 opacity-50">· {inv.funnelStage}</span>
               </button>
             ))}
           </div>

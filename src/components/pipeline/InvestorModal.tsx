@@ -27,13 +27,13 @@ function FieldLabel({ name, label }: { name: string; label: string }) {
   const helper = FIELD_HELPERS[name];
   return (
     <div className="flex items-center gap-1.5">
-      <Label className="text-sm font-medium">{label}</Label>
+      <Label className="text-[13px] font-medium text-foreground">{label}</Label>
       {helper && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <Info className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
+            <Info className="w-3.5 h-3.5 text-muted-foreground/50 hover:text-muted-foreground cursor-help transition-colors" />
           </TooltipTrigger>
-          <TooltipContent side="top" className="max-w-[260px] text-xs">
+          <TooltipContent side="top" className="max-w-[280px] text-[12px] leading-relaxed">
             {helper}
           </TooltipContent>
         </Tooltip>
@@ -58,10 +58,10 @@ function MultiSelect({ value, options, onChange }: { value: string[]; options: s
             key={opt}
             type="button"
             onClick={() => onChange(selected ? value.filter(v => v !== opt) : [...value, opt])}
-            className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+            className={`text-[12px] px-2.5 py-1 rounded-full border transition-all duration-150 ${
               selected
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'bg-muted text-muted-foreground border-border hover:border-foreground/30'
+                ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+                : 'bg-card text-muted-foreground border-border hover:border-foreground/25 hover:text-foreground'
             }`}
           >
             {opt}
@@ -92,12 +92,12 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] p-0">
-        <DialogHeader className="px-6 pt-6 pb-2">
+        <DialogHeader className="px-6 pt-6 pb-3">
           <DialogTitle className="font-display text-xl">
             {investor ? 'Edit Investor' : 'Add Investor'}
           </DialogTitle>
-          <p className="text-xs text-muted-foreground mt-1">
-            Only you can see this data. Use shorthand wherever you're comfortable.
+          <p className="text-[12px] text-muted-foreground mt-1 leading-relaxed">
+            This stays in your browser. Add as much or as little detail as feels right.
           </p>
         </DialogHeader>
 
@@ -152,8 +152,8 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
             </div>
 
             {/* Femtech / Health */}
-            <div className="pt-2 border-t border-border">
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Femtech & Health Fit</p>
+            <div className="pt-3 border-t border-border">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Femtech &amp; Health Fit</p>
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-1.5">
                   <FieldLabel name="femtechFit" label="Femtech Fit" />
@@ -196,7 +196,7 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
             </div>
 
             {/* Multi-selects */}
-            <div className="pt-2 border-t border-border space-y-3">
+            <div className="pt-3 border-t border-border space-y-3.5">
               <div className="space-y-1.5">
                 <FieldLabel name="stageFocus" label="Stage Focus" />
                 <MultiSelect value={form.stageFocus} options={MULTI_OPTIONS.stageFocus} onChange={v => set('stageFocus', v as StageF[])} />
@@ -212,8 +212,8 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
             </div>
 
             {/* Evidence & Regulatory */}
-            <div className="pt-2 border-t border-border">
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Evidence & Regulatory</p>
+            <div className="pt-3 border-t border-border">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Evidence &amp; Regulatory</p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <FieldLabel name="evidenceStage" label="Evidence Stage" />
@@ -241,8 +241,8 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
             </div>
 
             {/* Logistics */}
-            <div className="pt-2 border-t border-border">
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Logistics</p>
+            <div className="pt-3 border-t border-border">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Logistics</p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <FieldLabel name="checkSizeRange" label="Check Size" />
@@ -256,7 +256,7 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
               <div className="grid grid-cols-2 gap-4 mt-3">
                 <div className="space-y-1.5">
                   <FieldLabel name="warmIntroSource" label="Warm Intro Source" />
-                  <Input value={form.warmIntroSource} onChange={e => set('warmIntroSource', e.target.value)} placeholder="Initials or shorthand OK" />
+                  <Input value={form.warmIntroSource} onChange={e => set('warmIntroSource', e.target.value)} placeholder="Initials or shorthand—just for you" />
                 </div>
                 <div className="space-y-1.5">
                   <FieldLabel name="firstContactDate" label="First Contact" />
@@ -266,8 +266,8 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
             </div>
 
             {/* Actions & Notes */}
-            <div className="pt-2 border-t border-border">
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Actions & Notes</p>
+            <div className="pt-3 border-t border-border">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Actions &amp; Notes</p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <FieldLabel name="nextAction" label="Next Action" />
@@ -284,18 +284,18 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
                   value={form.keyNotes}
                   onChange={e => set('keyNotes', e.target.value)}
                   rows={3}
-                  placeholder="What do they care about? Use your own shorthand — this is just for you."
+                  placeholder="What matters to them? Use your own shorthand—this is just for you."
                 />
               </div>
             </div>
           </form>
         </ScrollArea>
 
-        <DialogFooter className="px-6 py-4 border-t border-border">
+        <DialogFooter className="px-6 py-4 border-t border-border bg-muted/30">
           <div className="flex items-center justify-between w-full">
             {onDelete ? (
-              <Button type="button" variant="ghost" size="sm" onClick={onDelete} className="text-destructive hover:text-destructive">
-                <Trash2 className="w-4 h-4 mr-1" /> Delete
+              <Button type="button" variant="ghost" size="sm" onClick={onDelete} className="text-destructive hover:text-destructive hover:bg-destructive/10">
+                <Trash2 className="w-4 h-4 mr-1" /> Remove
               </Button>
             ) : <div />}
             <div className="flex gap-2">
