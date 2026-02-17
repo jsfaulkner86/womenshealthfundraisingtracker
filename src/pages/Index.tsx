@@ -12,6 +12,7 @@ import { StatsBar } from '@/components/pipeline/StatsBar';
 import { OnboardingChecklist } from '@/components/pipeline/OnboardingChecklist';
 import { SmartThisWeek } from '@/components/pipeline/SmartThisWeek';
 import { InvestorFeed } from '@/components/pipeline/InvestorFeed';
+import { NewsFeed } from '@/components/pipeline/NewsFeed';
 import { OverwhelmGuard } from '@/components/pipeline/OverwhelmGuard';
 import { ImportDialog } from '@/components/pipeline/ImportDialog';
 import { Plus, ShieldCheck, Download, Upload, CloudOff } from 'lucide-react';
@@ -188,6 +189,9 @@ const Index = () => {
 
         {/* Investor feed */}
         <InvestorFeed onAddFromFeed={handleAddFromFeed} />
+
+        {/* News feed */}
+        <NewsFeed />
       </div>
 
       {/* Modals */}
