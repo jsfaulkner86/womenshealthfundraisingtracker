@@ -7,7 +7,7 @@ interface InvestorCardProps {
 }
 
 export function InvestorCard({ investor, onClick }: InvestorCardProps) {
-  const priorityDot = {
+  const priorityDot: Record<string, string> = {
     High: 'bg-priority-high',
     Medium: 'bg-priority-medium',
     Low: 'bg-priority-low',
@@ -18,21 +18,21 @@ export function InvestorCard({ investor, onClick }: InvestorCardProps) {
       draggable
       onDragStart={(e) => e.dataTransfer.setData('investor-id', investor.id)}
       onClick={onClick}
-      className="bg-card rounded-lg border border-border p-3 cursor-pointer hover:shadow-md transition-shadow group"
+      className="bg-card rounded-lg border border-border p-3 cursor-pointer hover:shadow-md hover:border-border/80 transition-all duration-150 group"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-sm font-semibold text-foreground truncate">
+          <p className="text-[13px] font-semibold text-foreground truncate leading-snug">
             {investor.investorName || 'Unnamed'}
           </p>
           {investor.fundName && (
-            <p className="text-xs text-muted-foreground truncate">{investor.fundName}</p>
+            <p className="text-[11px] text-muted-foreground truncate mt-0.5">{investor.fundName}</p>
           )}
         </div>
-        <span className={cn("w-2 h-2 rounded-full flex-shrink-0 mt-1.5", priorityDot[investor.priority])} />
+        <span className={cn("w-2 h-2 rounded-full flex-shrink-0 mt-1", priorityDot[investor.priority])} />
       </div>
 
-      <div className="flex flex-wrap gap-1 mt-2">
+      <div className="flex flex-wrap gap-1 mt-2.5">
         {investor.femtechFit === 'Yes' && (
           <span className="inline-flex items-center text-[10px] font-medium px-1.5 py-0.5 rounded bg-secondary text-secondary-foreground">
             Femtech ✓
@@ -44,14 +44,14 @@ export function InvestorCard({ investor, onClick }: InvestorCardProps) {
           </span>
         )}
         {investor.checkSizeRange && (
-          <span className="inline-flex text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+          <span className="inline-flex text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground tabular-nums">
             {investor.checkSizeRange}
           </span>
         )}
       </div>
 
       {investor.nextAction && (
-        <p className="text-xs text-muted-foreground mt-2 truncate">
+        <p className="text-[11px] text-muted-foreground mt-2 truncate leading-relaxed">
           → {investor.nextAction}
         </p>
       )}

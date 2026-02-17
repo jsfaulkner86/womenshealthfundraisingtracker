@@ -1,14 +1,14 @@
 import type { ViewType } from '@/lib/types';
 import { VIEW_INFO } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { Kanban, CalendarClock, Heart, Microscope, Users } from 'lucide-react';
+import { GitBranch, CalendarClock, HeartPulse, Stethoscope, Handshake } from 'lucide-react';
 
 const VIEW_ICONS: Record<ViewType, React.ReactNode> = {
-  'kanban': <Kanban className="w-4 h-4" />,
-  'follow-ups': <CalendarClock className="w-4 h-4" />,
-  'femtech-fit': <Heart className="w-4 h-4" />,
-  'clinical': <Microscope className="w-4 h-4" />,
-  'warm-intros': <Users className="w-4 h-4" />,
+  'kanban': <GitBranch className="w-[15px] h-[15px]" />,
+  'follow-ups': <CalendarClock className="w-[15px] h-[15px]" />,
+  'femtech-fit': <HeartPulse className="w-[15px] h-[15px]" />,
+  'clinical': <Stethoscope className="w-[15px] h-[15px]" />,
+  'warm-intros': <Handshake className="w-[15px] h-[15px]" />,
 };
 
 interface ViewSwitcherProps {
@@ -21,16 +21,16 @@ export function ViewSwitcher({ currentView, onViewChange, investorCount }: ViewS
   const views = Object.entries(VIEW_INFO) as [ViewType, typeof VIEW_INFO[ViewType]][];
 
   return (
-    <div className="flex items-center gap-1 overflow-x-auto pb-1">
+    <div className="flex items-center gap-1 overflow-x-auto pb-1 -mx-1 px-1">
       {views.map(([key, info]) => (
         <button
           key={key}
           onClick={() => onViewChange(key)}
           className={cn(
-            "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition-colors",
+            "flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13px] font-medium whitespace-nowrap transition-all duration-150",
             currentView === key
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted/70"
           )}
         >
           {VIEW_ICONS[key]}
@@ -38,8 +38,8 @@ export function ViewSwitcher({ currentView, onViewChange, investorCount }: ViewS
         </button>
       ))}
       {investorCount > 0 && (
-        <span className="text-xs text-muted-foreground ml-2 tabular-nums">
-          {investorCount} investor{investorCount !== 1 ? 's' : ''}
+        <span className="text-xs text-muted-foreground/70 ml-3 tabular-nums font-body">
+          {investorCount} investor{investorCount !== 1 ? 's' : ''} tracked
         </span>
       )}
     </div>

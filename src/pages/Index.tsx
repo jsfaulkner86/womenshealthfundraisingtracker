@@ -8,7 +8,7 @@ import { TableView } from '@/components/pipeline/TableView';
 import { InvestorModal } from '@/components/pipeline/InvestorModal';
 import { PrivacyBanner } from '@/components/pipeline/PrivacyBanner';
 import { EmptyState } from '@/components/pipeline/EmptyState';
-import { Plus, Shield } from 'lucide-react';
+import { Plus, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -43,29 +43,27 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-30">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4">
+      <header className="border-b border-border bg-card/60 backdrop-blur-md sticky top-0 z-30">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 py-5">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-display font-bold text-foreground tracking-tight">
+              <h1 className="text-[22px] sm:text-2xl font-display font-semibold text-foreground leading-tight">
                 Women's Health Fundraising Tracker
               </h1>
-              <p className="text-sm text-muted-foreground mt-0.5">
-                Privacy-first investor pipeline for femtech founders
+              <p className="text-[13px] text-muted-foreground mt-1 font-body">
+                A private command center for femtech founders raising capital
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
+            <div className="flex items-center gap-3">
+              <button
                 onClick={() => setShowPrivacy(true)}
-                className="text-muted-foreground hover:text-foreground"
+                className="flex items-center gap-1.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 group"
               >
-                <Shield className="w-4 h-4 mr-1.5" />
+                <ShieldCheck className="w-4 h-4 text-primary/70 group-hover:text-primary transition-colors" />
                 <span className="hidden sm:inline">Privacy</span>
-              </Button>
+              </button>
               <Button onClick={handleAdd} size="sm">
-                <Plus className="w-4 h-4 mr-1.5" />
+                <Plus className="w-4 h-4" />
                 Add Investor
               </Button>
             </div>
@@ -73,20 +71,18 @@ const Index = () => {
         </div>
       </header>
 
-      {/* View Switcher */}
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4">
+      {/* View Switcher & Content */}
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 pt-5 pb-12">
         <ViewSwitcher
           currentView={currentView}
           onViewChange={setCurrentView}
           investorCount={investors.length}
         />
 
-        {/* View description */}
-        <p className="text-sm text-muted-foreground mt-3 mb-5 max-w-2xl">
+        <p className="text-[13px] text-muted-foreground mt-3 mb-6 max-w-xl leading-relaxed">
           {viewInfo.description}
         </p>
 
-        {/* Content */}
         {investors.length === 0 ? (
           <EmptyState onAdd={handleAdd} />
         ) : currentView === 'kanban' ? (
