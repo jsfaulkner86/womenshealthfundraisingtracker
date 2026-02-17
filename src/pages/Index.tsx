@@ -13,7 +13,8 @@ import { OnboardingChecklist } from '@/components/pipeline/OnboardingChecklist';
 import { SmartThisWeek } from '@/components/pipeline/SmartThisWeek';
 import { InvestorFeed } from '@/components/pipeline/InvestorFeed';
 import { OverwhelmGuard } from '@/components/pipeline/OverwhelmGuard';
-import { Plus, ShieldCheck, Download } from 'lucide-react';
+import { ImportDialog } from '@/components/pipeline/ImportDialog';
+import { Plus, ShieldCheck, Download, Upload, CloudOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
@@ -28,7 +29,11 @@ const Index = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingInvestor, setEditingInvestor] = useState<Investor | null>(null);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showImport, setShowImport] = useState(false);
 
+  const handleImport = (imported: Investor[]) => {
+    imported.forEach(inv => addInvestor(inv));
+  };
   const handleEdit = (investor: Investor) => {
     setEditingInvestor(investor);
     setModalOpen(true);
@@ -85,6 +90,11 @@ const Index = () => {
               </p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
+              <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-muted-foreground mr-1">
+                <CloudOff className="w-3 h-3" />
+                <span>Auto-saved locally</span>
+              </div>
+
               <button
                 onClick={() => setShowPrivacy(true)}
                 className="flex items-center gap-1.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 group"
@@ -98,10 +108,10 @@ const Index = () => {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm">
                       <Download className="w-4 h-4" />
-                      <span className="hidden sm:inline">Save</span>
+                      <span className="hidden sm:inline">Export</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="bg-popover">
                     <DropdownMenuItem onClick={() => handleExport('json')}>
                       Export as JSON
                     </DropdownMenuItem>
@@ -111,6 +121,11 @@ const Index = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
+
+              <Button variant="outline" size="sm" onClick={() => setShowImport(true)}>
+                <Upload className="w-4 h-4" />
+                <span className="hidden sm:inline">Import</span>
+              </Button>
 
               <Button onClick={handleAdd} size="sm">
                 <Plus className="w-4 h-4" />
@@ -184,6 +199,7 @@ const Index = () => {
         onDelete={editingInvestor ? () => { deleteInvestor(editingInvestor.id); setModalOpen(false); } : undefined}
       />
       <PrivacyBanner open={showPrivacy} onOpenChange={setShowPrivacy} />
+      <ImportDialog open={showImport} onOpenChange={setShowImport} onImport={handleImport} />
     </div>
   );
 };
