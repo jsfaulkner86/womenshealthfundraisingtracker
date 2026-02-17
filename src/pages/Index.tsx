@@ -1,18 +1,29 @@
 import { useState } from 'react';
-import { useInvestors } from '@/hooks/useInvestors';
-import type { ViewType, Investor } from '@/lib/types';
-import { VIEW_INFO } from '@/lib/types';
+import { useInvestors, useWeeklyReflection, useOnboarding, useStatsSnapshot } from '@/hooks/useInvestors';
+import type { ViewType, Investor, KnownInvestor } from '@/lib/types';
+import { VIEW_INFO, createEmptyInvestor, exportToJSON, exportToCSV, downloadFile } from '@/lib/types';
 import { ViewSwitcher } from '@/components/pipeline/ViewSwitcher';
 import { KanbanView } from '@/components/pipeline/KanbanView';
 import { TableView } from '@/components/pipeline/TableView';
 import { InvestorModal } from '@/components/pipeline/InvestorModal';
 import { PrivacyBanner } from '@/components/pipeline/PrivacyBanner';
 import { EmptyState } from '@/components/pipeline/EmptyState';
-import { Plus, ShieldCheck } from 'lucide-react';
+import { StatsBar } from '@/components/pipeline/StatsBar';
+import { OnboardingChecklist } from '@/components/pipeline/OnboardingChecklist';
+import { SmartThisWeek } from '@/components/pipeline/SmartThisWeek';
+import { InvestorFeed } from '@/components/pipeline/InvestorFeed';
+import { OverwhelmGuard } from '@/components/pipeline/OverwhelmGuard';
+import { Plus, ShieldCheck, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const Index = () => {
   const { investors, addInvestor, updateInvestor, deleteInvestor, updateFunnelStage } = useInvestors();
+  const { reflection, setReflection } = useWeeklyReflection();
+  const { dismissed: onboardingDismissed, dismiss: dismissOnboarding } = useOnboarding();
+  const { snapshot } = useStatsSnapshot();
   const [currentView, setCurrentView] = useState<ViewType>('kanban');
   const [modalOpen, setModalOpen] = useState(false);
   const [editingInvestor, setEditingInvestor] = useState<Investor | null>(null);
@@ -38,7 +49,26 @@ const Index = () => {
     setEditingInvestor(null);
   };
 
+  const handleAddFromFeed = (known: KnownInvestor) => {
+    const inv = createEmptyInvestor();
+    inv.fundName = known.fund;
+    inv.investorName = known.name;
+    inv.femtechFit = 'Yes';
+    inv.funnelStage = 'Research';
+    addInvestor(inv);
+  };
+
+  const handleExport = (format: 'json' | 'csv') => {
+    const date = new Date().toISOString().slice(0, 10);
+    if (format === 'json') {
+      downloadFile(exportToJSON(investors), `pipeline-${date}.json`, 'application/json');
+    } else {
+      downloadFile(exportToCSV(investors), `pipeline-${date}.csv`, 'text/csv');
+    }
+  };
+
   const viewInfo = VIEW_INFO[currentView];
+  const showOnboarding = investors.length > 0 && investors.length < 10 && !onboardingDismissed;
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,7 +84,7 @@ const Index = () => {
                 A private command center for femtech founders raising capital
               </p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={() => setShowPrivacy(true)}
                 className="flex items-center gap-1.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 group"
@@ -62,9 +92,29 @@ const Index = () => {
                 <ShieldCheck className="w-4 h-4 text-primary/70 group-hover:text-primary transition-colors" />
                 <span className="hidden sm:inline">Privacy</span>
               </button>
+
+              {investors.length > 0 && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <Download className="w-4 h-4" />
+                      <span className="hidden sm:inline">Save</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => handleExport('json')}>
+                      Export as JSON
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleExport('csv')}>
+                      Export as CSV
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+
               <Button onClick={handleAdd} size="sm">
                 <Plus className="w-4 h-4" />
-                Add Investor
+                <span className="hidden sm:inline">Add Investor</span>
               </Button>
             </div>
           </div>
@@ -73,16 +123,30 @@ const Index = () => {
 
       {/* View Switcher & Content */}
       <div className="max-w-[1400px] mx-auto px-5 sm:px-8 pt-5 pb-12">
+        {/* Stats bar */}
+        <StatsBar investors={investors} lastSnapshot={snapshot} />
+
+        {investors.length > 0 && <div className="mt-4" />}
+
         <ViewSwitcher
           currentView={currentView}
           onViewChange={setCurrentView}
           investorCount={investors.length}
         />
 
-        <p className="text-[13px] text-muted-foreground mt-3 mb-6 max-w-xl leading-relaxed">
+        <p className="text-[13px] text-muted-foreground mt-3 mb-5 max-w-xl leading-relaxed">
           {viewInfo.description}
         </p>
 
+        {/* Onboarding checklist */}
+        {showOnboarding && (
+          <OnboardingChecklist investors={investors} onDismiss={dismissOnboarding} />
+        )}
+
+        {/* Overwhelm guard */}
+        <OverwhelmGuard investors={investors} />
+
+        {/* Main content */}
         {investors.length === 0 ? (
           <EmptyState onAdd={handleAdd} />
         ) : currentView === 'kanban' ? (
@@ -90,6 +154,13 @@ const Index = () => {
             investors={investors}
             onEdit={handleEdit}
             onStageChange={updateFunnelStage}
+          />
+        ) : currentView === 'follow-ups' ? (
+          <SmartThisWeek
+            investors={investors}
+            onEdit={handleEdit}
+            reflection={reflection}
+            onReflectionChange={setReflection}
           />
         ) : (
           <TableView
@@ -99,6 +170,9 @@ const Index = () => {
             onDelete={deleteInvestor}
           />
         )}
+
+        {/* Investor feed */}
+        <InvestorFeed onAddFromFeed={handleAddFromFeed} />
       </div>
 
       {/* Modals */}
