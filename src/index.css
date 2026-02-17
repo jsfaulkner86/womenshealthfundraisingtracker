@@ -27,7 +27,7 @@
 
     /* Muted: warm gray — supporting text and surfaces */
     --muted: 40 12% 92%;
-    --muted-foreground: 200 8% 46%;
+    --muted-foreground: 200 10% 38%;
 
     /* Accent: warm terracotta — confident, not aggressive */
     --accent: 16 52% 58%;
@@ -79,7 +79,7 @@
     --secondary: 200 12% 16%;
     --secondary-foreground: 42 12% 85%;
     --muted: 200 12% 16%;
-    --muted-foreground: 42 8% 55%;
+    --muted-foreground: 42 10% 65%;
     --accent: 16 45% 55%;
     --accent-foreground: 200 14% 8%;
     --destructive: 0 50% 35%;
