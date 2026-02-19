@@ -15,10 +15,13 @@ export function InvestorCard({ investor, onClick }: InvestorCardProps) {
 
   return (
     <div
+      role="button"
+      tabIndex={0}
       draggable
       onDragStart={(e) => e.dataTransfer.setData('investor-id', investor.id)}
       onClick={onClick}
-      className="bg-card rounded-lg border border-border p-3 cursor-pointer hover:shadow-md hover:border-border/80 transition-all duration-150 group"
+      onKeyDown={(e) => e.key === 'Enter' && onClick()}
+      className="bg-card rounded-lg border border-border p-3.5 sm:p-3 cursor-pointer hover:shadow-md hover:border-border/80 active:scale-[0.98] transition-all duration-150 group touch-manipulation select-none"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">

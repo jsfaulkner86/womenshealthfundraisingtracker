@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from '@/components/ui/dialog';
+import {
+  Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter,
+} from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -51,7 +55,7 @@ const MULTI_OPTIONS: Record<string, string[]> = {
 
 function MultiSelect({ value, options, onChange }: { value: string[]; options: string[]; onChange: (v: string[]) => void }) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap gap-2">
       {options.map(opt => {
         const selected = value.includes(opt);
         return (
@@ -59,7 +63,7 @@ function MultiSelect({ value, options, onChange }: { value: string[]; options: s
             key={opt}
             type="button"
             onClick={() => onChange(selected ? value.filter(v => v !== opt) : [...value, opt])}
-            className={`text-[12px] px-2.5 py-1 rounded-full border transition-all duration-150 ${
+            className={`text-[13px] px-3 py-1.5 rounded-full border transition-all duration-150 touch-manipulation ${
               selected
                 ? 'bg-primary text-primary-foreground border-primary shadow-sm'
                 : 'bg-card text-muted-foreground border-border hover:border-foreground/25 hover:text-foreground'
@@ -73,8 +77,238 @@ function MultiSelect({ value, options, onChange }: { value: string[]; options: s
   );
 }
 
+function InvestorForm({
+  form,
+  set,
+  onSubmit,
+}: {
+  form: Investor;
+  set: <K extends keyof Investor>(key: K, val: Investor[K]) => void;
+  onSubmit: (e: React.FormEvent) => void;
+}) {
+  return (
+    <form id="investor-form" onSubmit={onSubmit} className="space-y-5 pb-4 px-1">
+      {/* Core info */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <FieldLabel name="investorName" label="Investor Name" />
+          <Input value={form.investorName} onChange={e => set('investorName', e.target.value)} placeholder="e.g. Jane Smith" className="h-11 sm:h-10" />
+        </div>
+        <div className="space-y-1.5">
+          <FieldLabel name="fundName" label="Fund / Firm" />
+          <Input value={form.fundName} onChange={e => set('fundName', e.target.value)} placeholder="e.g. Flagship Pioneering" className="h-11 sm:h-10" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="space-y-1.5">
+          <FieldLabel name="type" label="Type" />
+          <Select value={form.type} onValueChange={v => set('type', v as InvestorType)}>
+            <SelectTrigger className="h-11 sm:h-10"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {(['Angel', 'Fund', 'Family Office', 'CVC', 'Grant'] as InvestorType[]).map(t => (
+                <SelectItem key={t} value={t}>{t}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-1.5">
+          <FieldLabel name="priority" label="Priority" />
+          <Select value={form.priority} onValueChange={v => set('priority', v as Priority)}>
+            <SelectTrigger className="h-11 sm:h-10"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {(['High', 'Medium', 'Low'] as Priority[]).map(t => (
+                <SelectItem key={t} value={t}>{t}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-1.5">
+          <FieldLabel name="funnelStage" label="Funnel Stage" />
+          <Select value={form.funnelStage} onValueChange={v => set('funnelStage', v as FunnelStage)}>
+            <SelectTrigger className="h-11 sm:h-10"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {FUNNEL_STAGES.map(t => (
+                <SelectItem key={t} value={t}>{t}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Femtech / Health */}
+      <div className="pt-3 border-t border-border">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Femtech &amp; Health Fit</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="space-y-1.5">
+            <FieldLabel name="femtechFit" label="Femtech Fit" />
+            <Select value={form.femtechFit} onValueChange={v => set('femtechFit', v as FemtechFit)}>
+              <SelectTrigger className="h-11 sm:h-10"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {(['Yes', 'No', 'Unknown'] as FemtechFit[]).map(t => (
+                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-1.5">
+            <FieldLabel name="healthcareFocus" label="Healthcare Focus" />
+            <Select value={form.healthcareFocus} onValueChange={v => set('healthcareFocus', v as HealthcareFocus)}>
+              <SelectTrigger className="h-11 sm:h-10"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {(['Payer', 'Provider', 'Employer', 'Pharma', 'Consumer', 'Multi'] as HealthcareFocus[]).map(t => (
+                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-1.5">
+            <FieldLabel name="strategicInterest" label="Strategic Interest" />
+            <Select value={form.strategicInterest} onValueChange={v => set('strategicInterest', v as StrategicInterest)}>
+              <SelectTrigger className="h-11 sm:h-10"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {(['Employers', 'Payers', 'Health systems', 'OB/GYN groups', 'D2C only', 'Multi'] as StrategicInterest[]).map(t => (
+                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <div className="mt-3 space-y-1.5">
+          <FieldLabel name="femtechFitTag" label="Fit Tag (short note)" />
+          <Input value={form.femtechFitTag} onChange={e => set('femtechFitTag', e.target.value)} placeholder="e.g. 'Invested in Elvie, bullish on fertility'" className="h-11 sm:h-10" />
+        </div>
+      </div>
+
+      {/* Multi-selects */}
+      <div className="pt-3 border-t border-border space-y-3.5">
+        <div className="space-y-1.5">
+          <FieldLabel name="stageFocus" label="Stage Focus" />
+          <MultiSelect value={form.stageFocus} options={MULTI_OPTIONS.stageFocus} onChange={v => set('stageFocus', v as StageF[])} />
+        </div>
+        <div className="space-y-1.5">
+          <FieldLabel name="clinicalFocus" label="Clinical Focus" />
+          <MultiSelect value={form.clinicalFocus} options={MULTI_OPTIONS.clinicalFocus} onChange={v => set('clinicalFocus', v as ClinicalFocus[])} />
+        </div>
+        <div className="space-y-1.5">
+          <FieldLabel name="productType" label="Product Type" />
+          <MultiSelect value={form.productType} options={MULTI_OPTIONS.productType} onChange={v => set('productType', v as ProductType[])} />
+        </div>
+      </div>
+
+      {/* Evidence & Regulatory */}
+      <div className="pt-3 border-t border-border">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Evidence &amp; Regulatory</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <FieldLabel name="evidenceStage" label="Evidence Stage" />
+            <Select value={form.evidenceStage} onValueChange={v => set('evidenceStage', v as EvidenceStage)}>
+              <SelectTrigger className="h-11 sm:h-10"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {(['Anecdotal', 'Pilot planned', 'Pilot running', 'Pilot completed', 'Published', 'Regulatory submission'] as EvidenceStage[]).map(t => (
+                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {form.evidenceStage && EVIDENCE_FUNDRAISING_TIPS[form.evidenceStage] && (
+              <p className="text-[11px] text-primary/80 leading-relaxed mt-1 italic">
+                💡 {EVIDENCE_FUNDRAISING_TIPS[form.evidenceStage]}
+              </p>
+            )}
+          </div>
+          <div className="space-y-1.5">
+            <FieldLabel name="regulatoryStatus" label="Regulatory Status" />
+            <Select value={form.regulatoryStatus} onValueChange={v => set('regulatoryStatus', v as RegulatoryStatus)}>
+              <SelectTrigger className="h-11 sm:h-10"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {(['Non-medical/wellness', 'FDA exempt', '510(k) path', 'De novo', 'EU MDR class', 'Other'] as RegulatoryStatus[]).map(t => (
+                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+
+      {/* Logistics */}
+      <div className="pt-3 border-t border-border">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Logistics &amp; Intros</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <FieldLabel name="checkSizeRange" label="Check Size" />
+            <Input value={form.checkSizeRange} onChange={e => set('checkSizeRange', e.target.value)} placeholder="e.g. $100K–$500K" className="h-11 sm:h-10" />
+          </div>
+          <div className="space-y-1.5">
+            <FieldLabel name="geography" label="Geography / TZ" />
+            <Input value={form.geography} onChange={e => set('geography', e.target.value)} placeholder="e.g. US West, EU" className="h-11 sm:h-10" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+          <div className="space-y-1.5">
+            <FieldLabel name="warmIntroSource" label="Warm Intro Source" />
+            <Input value={form.warmIntroSource} onChange={e => set('warmIntroSource', e.target.value)} placeholder="Initials or shorthand" className="h-11 sm:h-10" />
+          </div>
+          <div className="space-y-1.5">
+            <FieldLabel name="introPath" label="Intro Path" />
+            <Input value={form.introPath} onChange={e => set('introPath', e.target.value)} placeholder="e.g. Dr. K → Angel X → Fund Y" className="h-11 sm:h-10" />
+          </div>
+        </div>
+        <div className="mt-3 space-y-1.5">
+          <FieldLabel name="firstContactDate" label="First Contact" />
+          <Input type="date" value={form.firstContactDate} onChange={e => set('firstContactDate', e.target.value)} className="h-11 sm:h-10 w-full sm:w-48" />
+        </div>
+      </div>
+
+      {/* Actions & Notes */}
+      <div className="pt-3 border-t border-border">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Actions &amp; Notes</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <FieldLabel name="nextAction" label="Next Action" />
+            <Input value={form.nextAction} onChange={e => set('nextAction', e.target.value)} placeholder="e.g. Send deck follow-up" className="h-11 sm:h-10" />
+          </div>
+          <div className="space-y-1.5">
+            <FieldLabel name="nextActionDate" label="Next Action Date" />
+            <Input type="date" value={form.nextActionDate} onChange={e => set('nextActionDate', e.target.value)} className="h-11 sm:h-10" />
+          </div>
+        </div>
+        <div className="mt-3 space-y-1.5">
+          <FieldLabel name="keyNotes" label="Key Notes" />
+          <Textarea
+            value={form.keyNotes}
+            onChange={e => set('keyNotes', e.target.value)}
+            rows={3}
+            placeholder="What matters to them? Use your own shorthand."
+          />
+        </div>
+        <div className="mt-3 space-y-1.5">
+          <FieldLabel name="founderNotes" label="Founder Notes (private)" />
+          <Textarea
+            value={form.founderNotes}
+            onChange={e => set('founderNotes', e.target.value)}
+            rows={3}
+            placeholder="Vibes, red flags, gut feelings — for your eyes only."
+          />
+        </div>
+        <div className="mt-4 flex items-center gap-3">
+          <Checkbox
+            id="practice"
+            checked={form.isPractice}
+            onCheckedChange={(checked) => set('isPractice', !!checked)}
+            className="w-5 h-5"
+          />
+          <label htmlFor="practice" className="text-[13px] text-muted-foreground cursor-pointer">
+            Practice investor — rehearse your pitch here first
+          </label>
+        </div>
+      </div>
+    </form>
+  );
+}
+
 export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }: InvestorModalProps) {
   const [form, setForm] = useState<Investor>(createEmptyInvestor());
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (open) {
@@ -90,234 +324,52 @@ export function InvestorModal({ open, onOpenChange, investor, onSave, onDelete }
     onSave(form);
   };
 
+  const title = investor ? 'Edit Investor' : 'Add Investor';
+  const subtitle = "This stays in your browser. Add as much or as little detail as feels right.";
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={onOpenChange}>
+        <DrawerContent className="max-h-[92vh]">
+          <DrawerHeader className="px-5 pt-2 pb-3 text-left">
+            <DrawerTitle className="font-display text-xl">{title}</DrawerTitle>
+            <p className="text-[12px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>
+          </DrawerHeader>
+
+          <div className="overflow-y-auto flex-1 px-5">
+            <InvestorForm form={form} set={set} onSubmit={handleSubmit} />
+          </div>
+
+          <DrawerFooter className="border-t border-border bg-muted/30 pt-3">
+            <div className="flex items-center justify-between w-full">
+              {onDelete ? (
+                <Button type="button" variant="ghost" size="sm" onClick={onDelete} className="text-destructive hover:text-destructive hover:bg-destructive/10">
+                  <Trash2 className="w-4 h-4 mr-1" /> Remove
+                </Button>
+              ) : <div />}
+              <div className="flex gap-2">
+                <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+                <Button type="submit" form="investor-form">
+                  {investor ? 'Save' : 'Add Investor'}
+                </Button>
+              </div>
+            </div>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] p-0">
         <DialogHeader className="px-6 pt-6 pb-3">
-          <DialogTitle className="font-display text-xl">
-            {investor ? 'Edit Investor' : 'Add Investor'}
-          </DialogTitle>
-          <p className="text-[12px] text-muted-foreground mt-1 leading-relaxed">
-            This stays in your browser. Add as much or as little detail as feels right.
-          </p>
+          <DialogTitle className="font-display text-xl">{title}</DialogTitle>
+          <p className="text-[12px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>
         </DialogHeader>
 
         <ScrollArea className="max-h-[65vh] px-6">
-          <form id="investor-form" onSubmit={handleSubmit} className="space-y-5 pb-4 px-1">
-            {/* Core info */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <FieldLabel name="investorName" label="Investor Name" />
-                <Input value={form.investorName} onChange={e => set('investorName', e.target.value)} placeholder="e.g. Jane Smith" />
-              </div>
-              <div className="space-y-1.5">
-                <FieldLabel name="fundName" label="Fund / Firm" />
-                <Input value={form.fundName} onChange={e => set('fundName', e.target.value)} placeholder="e.g. Flagship Pioneering" />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              <div className="space-y-1.5">
-                <FieldLabel name="type" label="Type" />
-                <Select value={form.type} onValueChange={v => set('type', v as InvestorType)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {(['Angel', 'Fund', 'Family Office', 'CVC', 'Grant'] as InvestorType[]).map(t => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-1.5">
-                <FieldLabel name="priority" label="Priority" />
-                <Select value={form.priority} onValueChange={v => set('priority', v as Priority)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {(['High', 'Medium', 'Low'] as Priority[]).map(t => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-1.5">
-                <FieldLabel name="funnelStage" label="Funnel Stage" />
-                <Select value={form.funnelStage} onValueChange={v => set('funnelStage', v as FunnelStage)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {FUNNEL_STAGES.map(t => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Femtech / Health */}
-            <div className="pt-3 border-t border-border">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Femtech &amp; Health Fit</p>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="space-y-1.5">
-                  <FieldLabel name="femtechFit" label="Femtech Fit" />
-                  <Select value={form.femtechFit} onValueChange={v => set('femtechFit', v as FemtechFit)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {(['Yes', 'No', 'Unknown'] as FemtechFit[]).map(t => (
-                        <SelectItem key={t} value={t}>{t}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-1.5">
-                  <FieldLabel name="healthcareFocus" label="Healthcare Focus" />
-                  <Select value={form.healthcareFocus} onValueChange={v => set('healthcareFocus', v as HealthcareFocus)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {(['Payer', 'Provider', 'Employer', 'Pharma', 'Consumer', 'Multi'] as HealthcareFocus[]).map(t => (
-                        <SelectItem key={t} value={t}>{t}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-1.5">
-                  <FieldLabel name="strategicInterest" label="Strategic Interest" />
-                  <Select value={form.strategicInterest} onValueChange={v => set('strategicInterest', v as StrategicInterest)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {(['Employers', 'Payers', 'Health systems', 'OB/GYN groups', 'D2C only', 'Multi'] as StrategicInterest[]).map(t => (
-                        <SelectItem key={t} value={t}>{t}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className="mt-3 space-y-1.5">
-                <FieldLabel name="femtechFitTag" label="Fit Tag (short note)" />
-                <Input value={form.femtechFitTag} onChange={e => set('femtechFitTag', e.target.value)} placeholder="e.g. 'Invested in Elvie, bullish on fertility'" />
-              </div>
-            </div>
-
-            {/* Multi-selects */}
-            <div className="pt-3 border-t border-border space-y-3.5">
-              <div className="space-y-1.5">
-                <FieldLabel name="stageFocus" label="Stage Focus" />
-                <MultiSelect value={form.stageFocus} options={MULTI_OPTIONS.stageFocus} onChange={v => set('stageFocus', v as StageF[])} />
-              </div>
-              <div className="space-y-1.5">
-                <FieldLabel name="clinicalFocus" label="Clinical Focus" />
-                <MultiSelect value={form.clinicalFocus} options={MULTI_OPTIONS.clinicalFocus} onChange={v => set('clinicalFocus', v as ClinicalFocus[])} />
-              </div>
-              <div className="space-y-1.5">
-                <FieldLabel name="productType" label="Product Type" />
-                <MultiSelect value={form.productType} options={MULTI_OPTIONS.productType} onChange={v => set('productType', v as ProductType[])} />
-              </div>
-            </div>
-
-            {/* Evidence & Regulatory */}
-            <div className="pt-3 border-t border-border">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Evidence &amp; Regulatory</p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <FieldLabel name="evidenceStage" label="Evidence Stage" />
-                  <Select value={form.evidenceStage} onValueChange={v => set('evidenceStage', v as EvidenceStage)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {(['Anecdotal', 'Pilot planned', 'Pilot running', 'Pilot completed', 'Published', 'Regulatory submission'] as EvidenceStage[]).map(t => (
-                        <SelectItem key={t} value={t}>{t}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {form.evidenceStage && EVIDENCE_FUNDRAISING_TIPS[form.evidenceStage] && (
-                    <p className="text-[11px] text-primary/80 leading-relaxed mt-1 italic">
-                      💡 {EVIDENCE_FUNDRAISING_TIPS[form.evidenceStage]}
-                    </p>
-                  )}
-                </div>
-                <div className="space-y-1.5">
-                  <FieldLabel name="regulatoryStatus" label="Regulatory Status" />
-                  <Select value={form.regulatoryStatus} onValueChange={v => set('regulatoryStatus', v as RegulatoryStatus)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {(['Non-medical/wellness', 'FDA exempt', '510(k) path', 'De novo', 'EU MDR class', 'Other'] as RegulatoryStatus[]).map(t => (
-                        <SelectItem key={t} value={t}>{t}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </div>
-
-            {/* Logistics */}
-            <div className="pt-3 border-t border-border">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Logistics &amp; Intros</p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <FieldLabel name="checkSizeRange" label="Check Size" />
-                  <Input value={form.checkSizeRange} onChange={e => set('checkSizeRange', e.target.value)} placeholder="e.g. $100K–$500K" />
-                </div>
-                <div className="space-y-1.5">
-                  <FieldLabel name="geography" label="Geography / TZ" />
-                  <Input value={form.geography} onChange={e => set('geography', e.target.value)} placeholder="e.g. US West, EU" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4 mt-3">
-                <div className="space-y-1.5">
-                  <FieldLabel name="warmIntroSource" label="Warm Intro Source" />
-                  <Input value={form.warmIntroSource} onChange={e => set('warmIntroSource', e.target.value)} placeholder="Initials or shorthand—just for you" />
-                </div>
-                <div className="space-y-1.5">
-                  <FieldLabel name="introPath" label="Intro Path" />
-                  <Input value={form.introPath} onChange={e => set('introPath', e.target.value)} placeholder="e.g. Dr. K → Angel X → Fund Y" />
-                </div>
-              </div>
-              <div className="mt-3 space-y-1.5">
-                <FieldLabel name="firstContactDate" label="First Contact" />
-                <Input type="date" value={form.firstContactDate} onChange={e => set('firstContactDate', e.target.value)} className="w-48" />
-              </div>
-            </div>
-
-            {/* Actions & Notes */}
-            <div className="pt-3 border-t border-border">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3 font-body">Actions &amp; Notes</p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <FieldLabel name="nextAction" label="Next Action" />
-                  <Input value={form.nextAction} onChange={e => set('nextAction', e.target.value)} placeholder="e.g. Send deck follow-up" />
-                </div>
-                <div className="space-y-1.5">
-                  <FieldLabel name="nextActionDate" label="Next Action Date" />
-                  <Input type="date" value={form.nextActionDate} onChange={e => set('nextActionDate', e.target.value)} />
-                </div>
-              </div>
-              <div className="mt-3 space-y-1.5">
-                <FieldLabel name="keyNotes" label="Key Notes" />
-                <Textarea
-                  value={form.keyNotes}
-                  onChange={e => set('keyNotes', e.target.value)}
-                  rows={2}
-                  placeholder="What matters to them? Use your own shorthand—this is just for you."
-                />
-              </div>
-              <div className="mt-3 space-y-1.5">
-                <FieldLabel name="founderNotes" label="Founder Notes (private)" />
-                <Textarea
-                  value={form.founderNotes}
-                  onChange={e => set('founderNotes', e.target.value)}
-                  rows={2}
-                  placeholder="Vibes, red flags, gut feelings — for your eyes only."
-                />
-              </div>
-              <div className="mt-3 flex items-center gap-2">
-                <Checkbox
-                  id="practice"
-                  checked={form.isPractice}
-                  onCheckedChange={(checked) => set('isPractice', !!checked)}
-                />
-                <label htmlFor="practice" className="text-[12px] text-muted-foreground cursor-pointer">
-                  Practice investor — rehearse your pitch here first
-                </label>
-              </div>
-            </div>
-          </form>
+          <InvestorForm form={form} set={set} onSubmit={handleSubmit} />
         </ScrollArea>
 
         <DialogFooter className="px-6 py-4 border-t border-border bg-muted/30">
