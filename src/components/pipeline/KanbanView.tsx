@@ -19,13 +19,13 @@ export function KanbanView({ investors, onEdit, onStageChange }: KanbanViewProps
 
   return (
     <div>
-      <div className="flex gap-3 overflow-x-auto pb-4 -mx-1 px-1">
+      <div className="flex gap-3 overflow-x-auto pb-4 -mx-1 px-1 snap-x snap-mandatory touch-pan-x" style={{ WebkitOverflowScrolling: 'touch' }}>
         {ACTIVE_STAGES.map(stage => {
           const stageInvestors = investors.filter(i => i.funnelStage === stage);
           return (
             <div
               key={stage}
-              className="flex-shrink-0 w-[256px]"
+              className="flex-shrink-0 w-[80vw] sm:w-[256px] snap-start"
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => {
                 const id = e.dataTransfer.getData('investor-id');

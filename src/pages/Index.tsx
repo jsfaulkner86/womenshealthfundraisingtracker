@@ -98,21 +98,21 @@ const Index = () => {
 
       {/* Header */}
       <header className="border-b border-border bg-card/60 backdrop-blur-md sticky top-0 z-30">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 py-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2.5">
-                <h1 className="text-[22px] sm:text-2xl font-display font-semibold text-foreground leading-tight">
-                  Women's Health Fundraising Tracker
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 py-3 sm:py-5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <h1 className="text-[17px] sm:text-2xl font-display font-semibold text-foreground leading-tight truncate">
+                  Women's Health Tracker
                 </h1>
-                <Sparkles className="w-5 h-5 text-accent animate-pulse-soft" />
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-accent animate-pulse-soft flex-shrink-0" />
               </div>
-              <p className="text-[13px] text-muted-foreground mt-1.5 font-body flex items-center gap-2">
+              <p className="text-[12px] text-muted-foreground mt-1 font-body flex items-center gap-2 hidden sm:flex">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse-soft" />
                 {motivation}
               </p>
             </div>
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
               <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-muted-foreground mr-1">
                 <CloudOff className="w-3 h-3" />
                 <span>Auto-saved locally</span>
@@ -120,7 +120,7 @@ const Index = () => {
 
               <button
                 onClick={() => setShowPrivacy(true)}
-                className="flex items-center gap-1.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 group"
+                className="flex items-center justify-center w-9 h-9 sm:w-auto sm:h-auto sm:gap-1.5 sm:px-2 sm:py-1 text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 group rounded-md hover:bg-muted touch-manipulation"
               >
                 <ShieldCheck className="w-4 h-4 text-primary/70 group-hover:text-primary transition-colors" />
                 <span className="hidden sm:inline">Privacy</span>
@@ -129,7 +129,7 @@ const Index = () => {
               {investors.length > 0 && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" className="w-9 h-9 sm:w-auto px-0 sm:px-3.5 touch-manipulation">
                       <Download className="w-4 h-4" />
                       <span className="hidden sm:inline">Export</span>
                     </Button>
@@ -145,14 +145,15 @@ const Index = () => {
                 </DropdownMenu>
               )}
 
-              <Button variant="outline" size="sm" onClick={() => setShowImport(true)}>
+              <Button variant="outline" size="sm" onClick={() => setShowImport(true)} className="w-9 h-9 sm:w-auto px-0 sm:px-3.5 touch-manipulation">
                 <Upload className="w-4 h-4" />
                 <span className="hidden sm:inline">Import</span>
               </Button>
 
-              <Button onClick={handleAdd} size="sm" className="group">
+              <Button onClick={handleAdd} size="sm" className="group h-9 touch-manipulation">
                 <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
-                <span className="hidden sm:inline">Add Investor</span>
+                <span className="hidden xs:inline sm:inline">Add</span>
+                <span className="hidden sm:inline"> Investor</span>
               </Button>
             </div>
           </div>
@@ -160,7 +161,7 @@ const Index = () => {
       </header>
 
       {/* View Switcher & Content */}
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 pt-5 pb-12">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 sm:pb-12">
         {/* Stats bar */}
         <StatsBar investors={investors} lastSnapshot={snapshot} />
 
