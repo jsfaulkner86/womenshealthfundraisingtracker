@@ -36,12 +36,12 @@ export function EmptyState({ onAdd }: EmptyStateProps) {
         Start Your Private Pipeline
       </Button>
 
-      <p className="text-xs text-muted-foreground/60 mt-6 leading-relaxed max-w-xs">
+      <p className="text-sm text-muted-foreground mt-6 leading-relaxed max-w-xs">
         Optimized for pre-seed and seed rounds in women's health and femtech. 
         Only you can see what you enter here.
       </p>
 
-      <p className="text-[11px] text-muted-foreground/50 mt-4 italic">
+      <p className="text-[13px] text-muted-foreground/70 mt-4 italic">
         Tip: Use initials or shorthand if you prefer an extra layer of privacy.
       </p>
     </div>
