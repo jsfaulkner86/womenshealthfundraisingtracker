@@ -1,73 +1,57 @@
-# Welcome to your Lovable project
+# Women's Health Fundraising Tracker
 
-## Project info
+> **TypeScript + React** — Pipeline tracker built specifically for women's health tech founders
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)]()
+[![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)]()
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)]()
+[![Women's Health](https://img.shields.io/badge/Women's-Health-E91E8C?style=flat-square)]()
 
-## How can I edit this code?
+## The Problem
 
-There are several ways of editing your application.
+Early-stage women's health founders are managing investor relationships across spreadsheets, email threads, and sticky notes. There's no purpose-built tool for tracking fundraising pipeline in a sector with its own unique investor dynamics, funding cycles, and strategic context.
 
-**Use Lovable**
+## What It Does
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+A focused fundraising pipeline tracker built for women's health tech founders that:
+- Tracks investor contacts, outreach status, and meeting history
+- Organizes pipeline stages from first contact through term sheet
+- Captures notes and next actions per investor relationship
+- Provides a clean dashboard view of the full fundraising picture
 
-Changes made via Lovable will be committed automatically to this repo.
+## Tech Stack
 
-**Use your preferred IDE**
+| Layer | Technology |
+|---|---|
+| Frontend | React + TypeScript |
+| Build Tool | Vite |
+| Styling | Tailwind CSS |
+| Database | Supabase |
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Getting Started
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/jsfaulkner86/womenshealthfundraisingtracker
+cd womenshealthfundraisingtracker
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Environment Variables
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
+```
 
-**Use GitHub Codespaces**
+## Background
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Built by [John Faulkner](https://linkedin.com/in/johnathonfaulkner), founder of [The Faulkner Group](https://thefaulknergroupadvisors.com) — a boutique advisory firm helping women's health tech leaders navigate fundraising, product strategy, and AI adoption.
 
-## What technologies are used for this project?
+## What's Next
+- Investor database with women's health focus tags
+- Automated follow-up reminder system
+- Integration with the Fundraising Agent for AI-assisted narrative drafting
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+*Part of The Faulkner Group's women's health tech toolset. See all projects at [github.com/jsfaulkner86](https://github.com/jsfaulkner86)*
