@@ -19,9 +19,9 @@ const NEWS_SOURCES: NewsSource[] = [
 ];
 
 const CATEGORY_STYLES: Record<string, string> = {
-  funding: 'bg-primary/10 text-primary',
-  industry: 'bg-accent text-accent-foreground',
-  policy: 'bg-destructive/10 text-destructive',
+  funding: 'bg-primary text-primary-foreground',
+  industry: 'bg-primary/15 text-primary',
+  policy: 'bg-destructive text-destructive-foreground',
   research: 'bg-secondary text-secondary-foreground',
 };
 
@@ -51,7 +51,7 @@ export function NewsFeed() {
               </p>
               <ExternalLink className="w-3 h-3 text-muted-foreground/40 group-hover:text-primary/60 transition-colors flex-shrink-0 mt-0.5" />
             </div>
-            <p className="text-[11px] text-muted-foreground/80 mt-1.5 line-clamp-2 flex-1">{source.description}</p>
+            <p className="text-[11px] text-muted-foreground mt-1.5 line-clamp-2 flex-1">{source.description}</p>
             <span className={`mt-2 self-start text-[10px] font-medium px-1.5 py-0.5 rounded ${CATEGORY_STYLES[source.category]}`}>
               {source.category}
             </span>

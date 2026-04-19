@@ -161,7 +161,7 @@ const Index = () => {
       </header>
 
       {/* View Switcher & Content */}
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 sm:pb-12">
+      <main className="max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 sm:pb-12">
         {/* Stats bar */}
         <StatsBar investors={investors} lastSnapshot={snapshot} />
 
@@ -215,7 +215,7 @@ const Index = () => {
 
         {/* News feed */}
         <NewsFeed />
-      </div>
+      </main>
 
       {/* Modals */}
       <InvestorModal

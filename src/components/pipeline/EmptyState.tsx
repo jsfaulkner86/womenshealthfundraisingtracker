@@ -41,7 +41,7 @@ export function EmptyState({ onAdd }: EmptyStateProps) {
 
 Only you can see what you enter here.</p>
 
-      <p className="text-[13px] text-muted-foreground/70 mt-4 italic">
+      <p className="text-[13px] text-muted-foreground mt-4 italic">
         Tip: Use initials or shorthand if you prefer an extra layer of privacy.
       </p>
     </div>);
