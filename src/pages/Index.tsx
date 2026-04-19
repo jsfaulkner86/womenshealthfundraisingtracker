@@ -130,7 +130,7 @@ const Index = () => {
               {investors.length > 0 && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="w-9 h-9 sm:w-auto px-0 sm:px-3.5 touch-manipulation">
+                    <Button variant="ghost" size="sm" aria-label="Export pipeline" className="w-9 h-9 sm:w-auto px-0 sm:px-3.5 touch-manipulation">
                       <Download className="w-4 h-4" />
                       <span className="hidden sm:inline">Export</span>
                     </Button>
@@ -146,12 +146,12 @@ const Index = () => {
                 </DropdownMenu>
               )}
 
-              <Button variant="outline" size="sm" onClick={() => setShowImport(true)} className="w-9 h-9 sm:w-auto px-0 sm:px-3.5 touch-manipulation">
+              <Button variant="outline" size="sm" onClick={() => setShowImport(true)} aria-label="Import investors" className="w-9 h-9 sm:w-auto px-0 sm:px-3.5 touch-manipulation">
                 <Upload className="w-4 h-4" />
                 <span className="hidden sm:inline">Import</span>
               </Button>
 
-              <Button onClick={handleAdd} size="sm" className="group h-9 touch-manipulation">
+              <Button onClick={handleAdd} size="sm" aria-label="Add investor" className="group h-9 touch-manipulation">
                 <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
                 <span className="hidden xs:inline sm:inline">Add</span>
                 <span className="hidden sm:inline"> Investor</span>
