@@ -120,6 +120,7 @@ const Index = () => {
 
               <button
                 onClick={() => setShowPrivacy(true)}
+                aria-label="Privacy"
                 className="flex items-center justify-center w-9 h-9 sm:w-auto sm:h-auto sm:gap-1.5 sm:px-2 sm:py-1 text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 group rounded-md hover:bg-muted touch-manipulation"
               >
                 <ShieldCheck className="w-4 h-4 text-primary/70 group-hover:text-primary transition-colors" />
