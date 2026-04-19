@@ -33,11 +33,12 @@ export function InvestorFeed({ onAddFromFeed }: InvestorFeedProps) {
                 rel="noopener noreferrer"
                 className="p-1 rounded hover:bg-muted transition-colors flex-shrink-0"
                 onClick={e => e.stopPropagation()}
+                aria-label={`Visit ${inv.fund} website`}
               >
-                <ExternalLink className="w-3 h-3 text-muted-foreground/50" />
+                <ExternalLink className="w-3 h-3 text-muted-foreground" aria-hidden="true" />
               </a>
             </div>
-            <p className="text-[11px] text-muted-foreground/80 mt-1.5 line-clamp-2">{inv.focus}</p>
+            <p className="text-[11px] text-muted-foreground mt-1.5 line-clamp-2">{inv.focus}</p>
             {onAddFromFeed && (
               <button
                 onClick={() => onAddFromFeed(inv)}
@@ -50,7 +51,7 @@ export function InvestorFeed({ onAddFromFeed }: InvestorFeedProps) {
         ))}
       </div>
 
-      <p className="text-[10px] text-muted-foreground/50 mt-3 italic">
+      <p className="text-[11px] text-muted-foreground mt-3 italic">
         Data sourced from public fund profiles and industry reports. Verify current status before outreach.
       </p>
     </div>
