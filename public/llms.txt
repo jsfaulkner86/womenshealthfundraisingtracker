@@ -1,0 +1,11 @@
+# Women's Health Fundraising Tracker
+
+> A private, local-first command center for femtech founders raising capital. Track investors, conversations, and follow-ups in your browser — no accounts, no backend.
+
+## Pages
+
+- [Home](/): Pipeline tracker for femtech founders, with kanban and table views, curated investor list, and women's health news sources.
+
+## Optional
+
+- [The Faulkner Group Advisors](https://thefaulknergroupadvisors.com/): Publisher of the tracker.
