@@ -220,16 +220,29 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="border-t border-border bg-card/40 mt-8">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 py-6 text-center text-[12px] text-muted-foreground font-body">
-          Built by{' '}
-          <a
-            href="https://thefaulknergroupadvisors.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline transition-colors"
-          >
-            The Faulkner Group Advisors
-          </a>
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 py-6 text-center text-[12px] text-muted-foreground font-body space-y-1">
+          <p>
+            Created by{' '}
+            <a
+              href="https://thefaulknergroupadvisors.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline transition-colors"
+            >
+              🧿 The Faulkner Group
+            </a>
+          </p>
+          <p>
+            Built by{' '}
+            <a
+              href="https://thefaulknergroupadvisors.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline transition-colors"
+            >
+              The Faulkner Group Advisors
+            </a>
+          </p>
         </div>
       </footer>
 
