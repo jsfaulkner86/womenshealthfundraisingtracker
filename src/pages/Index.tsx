@@ -15,6 +15,7 @@ import { InvestorFeed } from '@/components/pipeline/InvestorFeed';
 import { NewsFeed } from '@/components/pipeline/NewsFeed';
 import { OverwhelmGuard } from '@/components/pipeline/OverwhelmGuard';
 import { ImportDialog } from '@/components/pipeline/ImportDialog';
+import faulknerGroupLogo from '@/assets/faulkner-group-logo.png.asset.json';
 import { Plus, ShieldCheck, Download, Upload, CloudOff, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -221,15 +222,20 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border bg-card/40 mt-8">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-8 py-6 text-center text-[12px] text-muted-foreground font-body space-y-1">
-          <p>
+          <p className="flex items-center justify-center gap-2">
             Created by{' '}
             <a
               href="https://thefaulknergroupadvisors.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline transition-colors"
+              className="inline-flex items-center gap-1.5 text-primary hover:underline transition-colors"
             >
-              🧿 The Faulkner Group
+              <img
+                src={faulknerGroupLogo.url}
+                alt="The Faulkner Group logo"
+                className="h-4 w-auto rounded-sm"
+              />
+              The Faulkner Group
             </a>
           </p>
           <p>
